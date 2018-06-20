@@ -1,0 +1,13 @@
+server:
+  port: 1111
+
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    health:
+      enabled: true
+spring:
+  data:
+    mongodb:
+      database: reactive
