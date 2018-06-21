@@ -1,28 +1,29 @@
-package io.pivotal.profile.domain;
+package io.pivotal.bank.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Document
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Contact  {
-    @Id
-    private String id;
-
+public class Address {
     @NonNull
-    private String userId;
+    private String addressLine1;
+    private String addressLine2;
+    private String addressLine3;
+    @NonNull
+    private String city;
+    @NonNull
+    private String state;
+    @NonNull
+    private String zip;
 
-    private Email email;
-    private Phone phone;
-    private Address address;
+    private Double latitude;
+    private Double longitude;
 }

@@ -1,8 +1,7 @@
 package io.pivotal.profile.service;
 
 import com.github.javafaker.Faker;
-import io.pivotal.profile.domain.Contact;
-import io.pivotal.profile.domain.Privacy;
+import io.pivotal.profile.domain.*;
 import io.pivotal.profile.model.Profile;
 import io.pivotal.profile.repository.ContactRepo;
 import io.pivotal.profile.repository.PrivacyRepo;
@@ -49,14 +48,20 @@ public class ProfileService {
         Faker faker = new Faker();
         Contact contact = Contact.builder()
                 .userId(userId)
-                .mobilePhoneNumber(faker.phoneNumber().cellPhone())
-                .homePhoneNumber(faker.phoneNumber().phoneNumber())
-                .primaryEmailId(faker.internet().safeEmailAddress())
-                .secondaryEmailId(faker.internet().emailAddress())
-                .addressLine1(faker.address().streetAddress())
-                .city(faker.address().city())
-                .state(faker.address().state())
-                .zip(faker.address().zipCode())
+                .phone(Phone.builder()
+                        .mobilePhoneNumber(faker.phoneNumber().cellPhone())
+                        .homePhoneNumber(faker.phoneNumber().phoneNumber())
+                        .build())
+                .email(Email.builder()
+                        .primaryEmailId(faker.internet().safeEmailAddress())
+                        .secondaryEmailId(faker.internet().emailAddress())
+                        .build())
+                .address(Address.builder()
+                        .addressLine1(faker.address().streetAddress())
+                        .city(faker.address().city())
+                        .state(faker.address().state())
+                        .zip(faker.address().zipCode())
+                        .build())
                 .build();
         return contactRepo.save(contact);
     }

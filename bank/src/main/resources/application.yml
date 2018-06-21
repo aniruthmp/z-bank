@@ -1,0 +1,14 @@
+server:
+  port: 2222
+
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    health:
+      enabled: true
+
+spring:
+  data:
+    mongodb:
+      database: reactive

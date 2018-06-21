@@ -69,3 +69,4 @@ public class ProfileApi {
 }
 
 //https://api.openbankproject.com/obp/v1.2.1/banks/postbank/accounts/f9315a52-330a-470c-8146-c51292c68f9d/public/transactions
+//https://raw.githubusercontent.com/OpenBankProject/OBP-API/develop/src/main/scala/code/api/sandbox/example_data/2016-04-28/example_import.json
