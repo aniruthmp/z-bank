@@ -27,7 +27,9 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.15'
     compile group: 'org.projectlombok', name: 'lombok'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.3'
 }

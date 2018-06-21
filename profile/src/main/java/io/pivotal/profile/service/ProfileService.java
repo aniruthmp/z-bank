@@ -29,11 +29,6 @@ public class ProfileService {
         this.mongoOperations = mongoOperations;
     }
 
-    public Mono<Contact> createContact(Contact contact) {
-        log.info("Came inside createContact for {}", contact);
-        return contactRepo.save(contact);
-    }
-
     public Flux<Contact> allContact() {
         return contactRepo.findAll();
     }

@@ -1,38 +1,46 @@
 package io.pivotal.bank.api;
 
 import io.pivotal.bank.domain.Branch;
-import io.pivotal.bank.service.BranchService;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static io.pivotal.bank.util.BankConstants.BRANCHES;
+import static io.pivotal.bank.util.BankConstants.BRANCH_ROOT;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BranchApiTest {
 
     @Autowired
-    BranchService branchService;
+    WebTestClient webTestClient;
 
     @Test
     public void t1_allBranches() {
-        List<Branch> branches = branchService.allBranches().collectList().block();
-        assertThat(branches).isNotEmpty();
+        webTestClient
+                .get()
+                .uri(BRANCH_ROOT + BRANCHES)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBodyList(Branch.class);
     }
 
     @Test
     public void t2_deleteBranches() {
-        branchService.deleteBranches().block();
-        assertThat(branchService.allBranches().collectList().block()).isEmpty();
+        webTestClient
+                .delete()
+                .uri(BRANCH_ROOT + BRANCHES)
+                .exchange()
+                .expectStatus().is2xxSuccessful();
     }
 
 }

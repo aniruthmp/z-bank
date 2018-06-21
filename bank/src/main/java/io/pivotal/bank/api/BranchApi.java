@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static io.pivotal.bank.util.BankConstants.BRANCHES;
+import static io.pivotal.bank.util.BankConstants.BRANCH_ROOT;
+
 @RestController
-@RequestMapping(value = "/api/bank")
+@RequestMapping(value = BRANCH_ROOT)
 public class BranchApi {
 
     private BranchService branchService;
@@ -20,12 +23,12 @@ public class BranchApi {
         this.branchService = branchService;
     }
 
-    @GetMapping(value = "/branches", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = BRANCHES, produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<Branch> allBranches() {
         return branchService.allBranches();
     }
 
-    @DeleteMapping(value = "/branches", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = BRANCHES, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<Void> deleteBranches() {
         return branchService.deleteBranches();
     }
