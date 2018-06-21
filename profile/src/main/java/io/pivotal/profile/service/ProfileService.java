@@ -3,12 +3,18 @@ package io.pivotal.profile.service;
 import com.github.javafaker.Faker;
 import io.pivotal.profile.domain.Contact;
 import io.pivotal.profile.domain.Privacy;
+import io.pivotal.profile.model.Profile;
 import io.pivotal.profile.repository.ContactRepo;
 import io.pivotal.profile.repository.PrivacyRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Service
 @Slf4j
@@ -16,10 +22,12 @@ public class ProfileService {
 
     private ContactRepo contactRepo;
     private PrivacyRepo privacyRepo;
+    private MongoOperations mongoOperations;
 
-    public ProfileService(ContactRepo contactRepo, PrivacyRepo privacyRepo) {
+    public ProfileService(ContactRepo contactRepo, PrivacyRepo privacyRepo, MongoOperations mongoOperations) {
         this.contactRepo = contactRepo;
         this.privacyRepo = privacyRepo;
+        this.mongoOperations = mongoOperations;
     }
 
     public Mono<Contact> createContact(Contact contact) {
@@ -31,9 +39,9 @@ public class ProfileService {
         return contactRepo.findAll();
     }
 
-    public Mono<Contact> getContact(String id) {
-        log.info("Came inside get for {}", id);
-        return contactRepo.findById(id);
+    public Mono<Contact> getContact(String userId) {
+        log.info("Came inside get for {}", userId);
+        return contactRepo.findByUserId(userId);
     }
 
     public Mono<Contact> randomContact(String userId) {
@@ -65,5 +73,42 @@ public class ProfileService {
                 .bReceiveEmail(faker.random().nextBoolean())
                 .build();
         return privacyRepo.save(privacy);
+    }
+
+    public Profile getProfile(String userId) {
+        log.info("Came inside getProfile for userId: {}", userId);
+        Profile profile = Profile.builder()
+                .userId(userId)
+                .build();
+        log.info("Querying Contact for userId: {}", userId);
+        Contact contact = contactRepo.findByUserId(userId).block(Duration.ofSeconds(1L));
+        log.info("Querying Privacy for userId: {}", userId);
+        Privacy privacy = privacyRepo.findByUserId(userId).block(Duration.ofSeconds(1L));
+        profile.toBuilder().contact(contact)
+                .privacy(privacy)
+                .build();
+        return profile;
+    }
+
+    public void deleteProfile(String userId) {
+        log.info("Came inside deleteProfile for userId: {}", userId);
+        log.info("Deleting Contact for userId: {}", userId);
+
+        Query deleteQuery = new Query();
+        deleteQuery.addCriteria(Criteria.where("userId").is(userId));
+        mongoOperations.findAllAndRemove(deleteQuery, Contact.class);
+
+        log.info("Deleting Privacy for userId: {}", userId);
+        mongoOperations.findAllAndRemove(deleteQuery, Privacy.class);
+
+    }
+
+    public Flux<Privacy> allPrivacy() {
+        return privacyRepo.findAll();
+    }
+
+    public Mono<Privacy> getPrivacy(String userId) {
+        log.info("Came inside get for {}", userId);
+        return privacyRepo.findByUserId(userId);
     }
 }

@@ -25,12 +25,11 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.springframework', name: 'spring-webflux'
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.15'
-    compileOnly group: 'org.projectlombok', name: 'lombok'
+    compile group: 'org.projectlombok', name: 'lombok'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
