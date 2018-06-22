@@ -1,0 +1,19 @@
+server:
+  port: 3333
+
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    health:
+      enabled: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/account_db
+    username: account_user
+    password: ThePassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

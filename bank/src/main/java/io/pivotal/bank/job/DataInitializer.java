@@ -10,9 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
+
+import static io.pivotal.bank.util.BankConstants.driveUp;
+import static io.pivotal.bank.util.BankConstants.lobby;
 
 @Component
 @Slf4j
@@ -26,12 +27,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        List<String> lobby = Arrays.asList("Monday: 09:00 - 16:30</br>Tuesday: 09:00 - 16:30</br>Wednesday: 09:30 - 16:30</br>Thursday: 09:00 - 16:30</br>Friday: 09:00 - 16:30</br>Saturday: 09:00 - 12:30</br>Sunday: Closed",
-                "Monday: 09:30 - 15:00</br>Tuesday: 09:30 - 15:00</br>Wednesday: 09:30 - 15:00</br>Thursday: 10:00 - 15:00</br>Friday: 09:30 - 15:00</br>Saturday: Closed</br>Sunday: Closed",
-                "Monday: 09:00 - 17:00</br>Tuesday: 09:00 - 17:00</br>Wednesday: 09:30 - 17:00</br>Thursday: 09:00 - 17:00</br>Friday: 09:00 - 17:00</br>Saturday: 09:00 - 13:00</br>Sunday: Closed");
-        List<String> driveUp = Arrays.asList("09:00 - 16:30", "09:30 - 15:00", "10:00 - 17:00", "10:00 - 13:00");
-
         StopWatch stopWatch = new StopWatch("Stop Watch for DataInitializer");
         stopWatch.start();
         log.info("Dummy branch records getting inserted..");
@@ -50,8 +45,8 @@ public class DataInitializer implements CommandLineRunner {
                             .longitude(Double.valueOf(faker.address().longitude()))
                             .build())
                     .hours(Hours.builder()
-                            .lobby(lobby.get(faker.random().nextInt(0,2)))
-                            .driveUp(driveUp.get(faker.random().nextInt(0,3)))
+                            .lobby(lobby.get(faker.random().nextInt(0, lobby.size() - 1)))
+                            .driveUp(driveUp.get(faker.random().nextInt(0, driveUp.size() - 1)))
                             .build())
                     .build();
             branchRepo.save(branch).block();

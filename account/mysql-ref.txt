@@ -1,0 +1,5 @@
+mysql -uroot -ppassword
+
+create database account_db; -- Create the new database
+create user 'account_user'@'localhost' identified by 'ThePassword'; -- Creates the user
+grant all on account_db.* to 'account_user'@'localhost'; -- Gives all the privileges to the new user on the newly created database
