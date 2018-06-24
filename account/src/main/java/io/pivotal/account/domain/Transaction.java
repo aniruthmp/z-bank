@@ -1,7 +1,7 @@
 package io.pivotal.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.pivotal.account.util.AccountConstants.ACCOUNT_TYPE;
+import io.pivotal.account.util.AccountConstants.TRANSACTION_STATUS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,27 +16,17 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-public class Account {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private long number;
-    private String label;
-    private ACCOUNT_TYPE type;
+    private long accountNumber;
     private String bankId;
-    @Column(precision = 2)
-    private double postedBalance;
-    @Column(precision = 2)
-    private double availableBalance;
-    @Column(precision = 2)
-    private double pendingDebits = 0L;
-    @Column(precision = 2)
-    private double pendingCredits = 0L;
-    private String primaryOwner;
-    private String secondaryOwner;
-    private String IBAN;
+    private TRANSACTION_STATUS status;
+
+    @Embedded
+    private Details details;
     private Date createdAt;
     private Date updatedAt;
-
 }

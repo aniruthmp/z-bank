@@ -16,4 +16,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
+
+cron:
+  poll-transaction: "0 0/5 * * * ?"

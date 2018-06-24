@@ -1,6 +1,8 @@
 package io.pivotal.account.api;
 
 import io.pivotal.account.domain.Account;
+import io.pivotal.account.domain.Transaction;
+import io.pivotal.account.job.TransactionProcessor;
 import io.pivotal.account.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,9 +17,11 @@ import static io.pivotal.account.util.AccountConstants.*;
 public class AccountApi {
 
     private AccountService accountService;
+    private TransactionProcessor transactionProcessor;
 
-    public AccountApi(AccountService accountService) {
+    public AccountApi(AccountService accountService, TransactionProcessor transactionProcessor) {
         this.accountService = accountService;
+        this.transactionProcessor = transactionProcessor;
     }
 
     @PutMapping(value = RANDOM_ACCOUNT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +49,11 @@ public class AccountApi {
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void deleteAccounts() {
         accountService.deleteAccounts();
+    }
+
+    @GetMapping(value = POLL, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Transaction> pollTransaction() {
+        return transactionProcessor.pollTransaction();
     }
 
 }

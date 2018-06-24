@@ -31,6 +31,8 @@ dependencies {
     runtime group: 'mysql', name: 'mysql-connector-java'
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.15'
     compile group: 'org.projectlombok', name: 'lombok'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testCompile group: 'com.wix', name: 'wix-embedded-mysql', version: '4.1.2'
 }
