@@ -39,6 +39,11 @@ public class AccountApi {
         return accountService.getAccountsByBankId(bankId);
     }
 
+    @GetMapping(value = USERID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Account> getAccountByUserId(@PathVariable(value = "userId") String userId) {
+        return accountService.getAccountByUserId(userId);
+    }
+
     @DeleteMapping(value = ACCOUNT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void deleteAccount(@PathVariable(value = "bankId") String bankId) {
@@ -54,6 +59,12 @@ public class AccountApi {
     @GetMapping(value = POLL, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Transaction> pollTransaction() {
         return transactionProcessor.pollTransaction();
+    }
+
+    @PutMapping(value = RANDOM_TRANSACTION, produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Transaction randomTransaction(@PathVariable(value = "number") long number) {
+        return accountService.createTransaction(number);
     }
 
 }

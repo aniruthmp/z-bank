@@ -1,7 +1,6 @@
 package io.pivotal.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.pivotal.account.util.AccountConstants.TRANSACTION_STATUS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +22,7 @@ public class Transaction {
 
     private long accountNumber;
     private String bankId;
-    private TRANSACTION_STATUS status;
+    private String status;
 
     @Embedded
     private Details details;

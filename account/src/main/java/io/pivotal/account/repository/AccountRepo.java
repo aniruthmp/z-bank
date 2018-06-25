@@ -10,6 +10,7 @@ import java.util.List;
 public interface AccountRepo extends JpaRepository<Account, Long> {
 
     List<Account> getAccountByBankId(String bankId);
+    List<Account> getAccountByUserId(String userId);
     Account getAccountByNumber(long number);
     void deleteAccountByBankId(String bankId);
 }

@@ -1,13 +1,15 @@
 package io.pivotal.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.pivotal.account.util.AccountConstants.ACCOUNT_TYPE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Data
@@ -23,16 +25,13 @@ public class Account {
 
     private long number;
     private String label;
-    private ACCOUNT_TYPE type;
+    private String type;
     private String bankId;
-    @Column(precision = 2)
     private double postedBalance;
-    @Column(precision = 2)
     private double availableBalance;
-    @Column(precision = 2)
     private double pendingDebits = 0L;
-    @Column(precision = 2)
     private double pendingCredits = 0L;
+    private String userId;
     private String primaryOwner;
     private String secondaryOwner;
     private String IBAN;

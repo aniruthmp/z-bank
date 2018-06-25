@@ -62,7 +62,8 @@ public class AccountApiTests {
     @Test
     public void t2_allAccounts() {
         ResponseEntity<List<Account>> accounts = restTemplate.exchange(ACCOUNT_ROOT + ACCOUNTS,
-                HttpMethod.GET,null, new ParameterizedTypeReference<List<Account>>() {});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
+                });
 
         assertNotNull(accounts.getBody());
         assertTrue("Asserting return list is not 0", !accounts.getBody().isEmpty());
@@ -71,7 +72,8 @@ public class AccountApiTests {
     @Test
     public void t3_getAccount() {
         ResponseEntity<List<Account>> accounts = restTemplate.exchange(ACCOUNT_ROOT + ACCOUNT,
-                HttpMethod.GET,null, new ParameterizedTypeReference<List<Account>>() {}, params);
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
+                }, params);
 
         assertNotNull(accounts.getBody());
         assertTrue("Asserting return list is not 0", !accounts.getBody().isEmpty());
@@ -80,7 +82,7 @@ public class AccountApiTests {
     @Test
     public void t4_deleteAccount() {
         ResponseEntity<Void> deleteResponse = restTemplate.exchange(ACCOUNT_ROOT + ACCOUNT,
-                HttpMethod.DELETE,null, Void.class, params);
+                HttpMethod.DELETE, null, Void.class, params);
 
         assertEquals(HttpStatus.ACCEPTED, deleteResponse.getStatusCode());
     }
@@ -88,19 +90,42 @@ public class AccountApiTests {
     @Test
     public void t5_deleteAccounts() {
         ResponseEntity<Void> deleteResponse = restTemplate.exchange(ACCOUNT_ROOT + ACCOUNTS,
-                HttpMethod.DELETE,null, Void.class);
+                HttpMethod.DELETE, null, Void.class);
 
         assertEquals(HttpStatus.ACCEPTED, deleteResponse.getStatusCode());
     }
 
-
     @Test
     public void t31_pollTransaction() {
         ResponseEntity<List<Transaction>> transactions = restTemplate.exchange(ACCOUNT_ROOT + POLL,
-                HttpMethod.GET,null, new ParameterizedTypeReference<List<Transaction>>() {});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Transaction>>() {
+                });
 
         assertNotNull(transactions.getBody());
         assertTrue("Asserting return list is not 0", !transactions.getBody().isEmpty());
+    }
+
+    @Test
+    public void t6_getAccountByUserId() {
+        Map<String, String> userIdMap = new HashMap<>();
+        userIdMap.put("userId", "PVTL");
+        ResponseEntity<List<Account>> accounts = restTemplate.exchange(ACCOUNT_ROOT + USERID,
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
+                }, userIdMap);
+
+        assertNotNull(accounts.getBody());
+        assertTrue("Asserting return list is not 0", !accounts.getBody().isEmpty());
+    }
+
+    @Test
+    public void t7_randomTransaction() {
+        Map<String, String> accountNumberMap = new HashMap<>();
+        accountNumberMap.put("number", "123");
+        ResponseEntity<Transaction> transaction = restTemplate.exchange(ACCOUNT_ROOT + RANDOM_TRANSACTION, HttpMethod.PUT,
+                null, Transaction.class, accountNumberMap);
+        assertNotNull(transaction.getBody());
+        assertNotNull(transaction.getBody().getId());
+        assertEquals("Asserting accountNumber", 123L, transaction.getBody().getAccountNumber());
     }
 
 }
