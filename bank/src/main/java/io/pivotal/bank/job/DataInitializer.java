@@ -18,7 +18,7 @@ import static io.pivotal.bank.util.BankConstants.lobby;
 @Component
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
-    private final int MAX_RECORDS = 16;
+    private final int MAX_RECORDS = 15;
     private BranchRepo branchRepo;
 
     public DataInitializer(BranchRepo branchRepo) {
